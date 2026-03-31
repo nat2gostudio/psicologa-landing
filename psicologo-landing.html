@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dra. Elena Morales — Psicóloga Clínica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sage:    #8FA88A;
+      --sage-lt: #C6D4C2;
+      --clay:    #C4A882;
+      --cream:   #F5F0E8;
+      --stone:   #E8E1D5;
+      --ink:     #2C2C2A;
+      --muted:   #7A7670;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: var(--cream);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, .serif { font-family: 'Cormorant Garamond', serif; }
+
+    /* ── Grain overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(245,240,232,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(196,168,130,0.2);
+      transition: padding .3s;
+    }
+    nav.scrolled { padding: 1rem 3rem; }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400; letter-spacing: .04em;
+      color: var(--ink);
+    }
+    .nav-logo span { color: var(--sage); }
+
+    .nav-links { display: flex; gap: 2.5rem; }
+    .nav-links a {
+      font-size: .8rem; font-weight: 400; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      padding: .55rem 1.5rem;
+      border: 1px solid var(--clay);
+      border-radius: 2rem;
+      font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--clay); text-decoration: none;
+      transition: all .25s;
+    }
+    .nav-cta:hover { background: var(--clay); color: #fff; }
+
+    /* ── Mobile nav ── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 24px; height: 1.5px; background: var(--ink); transition: all .3s; }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; z-index: 99;
+      background: var(--cream);
+      flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; color: var(--ink); text-decoration: none;
+    }
+
+    /* ── Hero ── */
+    #hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+      padding: 8rem 3rem 4rem;
+      gap: 4rem; max-width: 1300px; margin: 0 auto;
+    }
+
+    .hero-text { max-width: 540px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .75rem;
+      font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 2rem;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: block;
+      width: 40px; height: 1px; background: var(--sage);
+    }
+
+    .hero-title {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.05;
+      letter-spacing: -.01em; margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--clay); }
+
+    .hero-sub {
+      font-size: 1rem; line-height: 1.8;
+      color: var(--muted); max-width: 420px; margin-bottom: 3rem;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-block;
+      padding: .9rem 2.2rem;
+      background: var(--sage); color: #fff;
+      border-radius: 3rem; text-decoration: none;
+      font-size: .85rem; letter-spacing: .08em; font-weight: 500;
+      transition: all .25s; border: 1px solid transparent;
+    }
+    .btn-primary:hover { background: transparent; color: var(--sage); border-color: var(--sage); }
+
+    .btn-ghost {
+      font-size: .85rem; color: var(--muted);
+      text-decoration: none; letter-spacing: .06em;
+      display: flex; align-items: center; gap: .5rem;
+      transition: color .2s;
+    }
+    .btn-ghost:hover { color: var(--ink); }
+    .btn-ghost svg { transition: transform .2s; }
+    .btn-ghost:hover svg { transform: translateX(4px); }
+
+    /* Hero image */
+    .hero-visual { position: relative; }
+
+    .hero-img-wrap {
+      position: relative;
+      border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+      overflow: hidden;
+      aspect-ratio: 4/5;
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--stone);
+    }
+
+    .hero-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, transparent 50%, rgba(143,168,138,.25) 100%);
+    }
+
+    .hero-img-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(.85);
+    }
+
+    /* Placeholder illustration (SVG silhouette) */
+    .hero-placeholder {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(160deg, var(--stone) 0%, var(--sage-lt) 100%);
+    }
+
+    .floating-badge {
+      position: absolute; bottom: 2rem; left: -2rem;
+      background: #fff; border-radius: 1.5rem;
+      padding: 1rem 1.5rem; box-shadow: 0 8px 32px rgba(44,44,42,.08);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .badge-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 300; color: var(--clay); line-height: 1;
+    }
+    .badge-text { font-size: .7rem; color: var(--muted); line-height: 1.4; }
+
+    /* ── Decorative line ── */
+    .divider {
+      width: 100%; max-width: 1300px; margin: 0 auto;
+      padding: 0 3rem;
+      border-top: 1px solid rgba(196,168,130,.25);
+    }
+
+    /* ── Section shared ── */
+    section { padding: 7rem 3rem; max-width: 1300px; margin: 0 auto; }
+
+    .section-label {
+      font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--sage); display: flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--sage-lt); }
+
+    .section-title {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.1; letter-spacing: -.01em;
+    }
+    .section-title em { font-style: italic; color: var(--clay); }
+
+    /* ── Sobre mí ── */
+    #sobre {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center;
+    }
+
+    .sobre-img {
+      position: relative; border-radius: 2rem; overflow: hidden;
+      aspect-ratio: 3/4; background: var(--stone);
+    }
+    .sobre-img::before {
+      content: '';
+      position: absolute; inset: -1.5rem; border: 1px solid rgba(143,168,138,.3);
+      border-radius: 2.5rem; z-index: -1;
+    }
+    .sobre-img img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.8); }
+    .sobre-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(135deg, var(--stone) 0%, var(--sage-lt) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .sobre-text { }
+    .sobre-text p {
+      color: var(--muted); line-height: 1.85; font-size: .95rem; margin-bottom: 1.25rem;
+    }
+    .credential-list { margin-top: 2rem; display: flex; flex-direction: column; gap: .75rem; }
+    .credential-item {
+      display: flex; align-items: center; gap: 1rem;
+      padding: .85rem 1.2rem; background: #fff; border-radius: 1rem;
+      border: 1px solid rgba(196,168,130,.15);
+    }
+    .cred-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sage); flex-shrink: 0; }
+    .cred-text { font-size: .82rem; color: var(--muted); }
+
+    /* ── Servicios ── */
+    #servicios { }
+    .servicios-header { margin-bottom: 4rem; max-width: 560px; }
+    .servicios-header p { color: var(--muted); line-height: 1.8; margin-top: 1rem; font-size: .95rem; }
+
+    .servicios-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+
+    .servicio-card {
+      padding: 2.5rem 2rem; border-radius: 1.5rem;
+      border: 1px solid rgba(196,168,130,.2);
+      background: rgba(255,255,255,.5);
+      transition: all .3s; cursor: default;
+      position: relative; overflow: hidden;
+    }
+    .servicio-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent 60%, rgba(143,168,138,.08) 100%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .servicio-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(44,44,42,.06); }
+    .servicio-card:hover::before { opacity: 1; }
+
+    .card-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: var(--sage-lt); display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400; margin-bottom: .75rem;
+    }
+    .card-desc { font-size: .85rem; color: var(--muted); line-height: 1.8; }
+
+    /* ── Enfoque ── */
+    #enfoque {
+      background: var(--ink); border-radius: 3rem; padding: 6rem 4rem;
+      max-width: 1300px; margin: 0 auto 0;
+    }
+    #enfoque .section-label { color: var(--sage-lt); }
+    #enfoque .section-label::after { background: rgba(198,212,194,.3); }
+    #enfoque .section-title { color: var(--cream); }
+
+    .enfoque-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(255,255,255,.08);
+      border-radius: 1.5rem; overflow: hidden; margin-top: 4rem;
+    }
+    .enfoque-item {
+      background: var(--ink); padding: 2.5rem 2rem;
+      transition: background .3s;
+    }
+    .enfoque-item:hover { background: #3a3a37; }
+    .enfoque-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem; font-weight: 300; color: rgba(255,255,255,.12);
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .enfoque-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; font-weight: 400; color: var(--cream);
+      margin-bottom: .5rem;
+    }
+    .enfoque-desc { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.7; }
+
+    /* ── Testimonios ── */
+    #testimonios { }
+    .testimonios-header { margin-bottom: 4rem; }
+
+    .testimonios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .testimonio-card {
+      padding: 2.5rem; border-radius: 1.5rem;
+      background: #fff; border: 1px solid rgba(196,168,130,.15);
+      position: relative;
+    }
+    .testimonio-card::before {
+      content: '\201C';
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 5rem; color: var(--sage-lt);
+      position: absolute; top: 1rem; left: 1.5rem;
+      line-height: 1;
+    }
+    .testimonio-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; font-style: italic; line-height: 1.7;
+      color: var(--ink); margin-top: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .testimonio-author { display: flex; align-items: center; gap: .75rem; }
+    .author-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--stone); display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; color: var(--muted); font-weight: 500;
+    }
+    .author-name { font-size: .85rem; font-weight: 500; }
+    .author-role { font-size: .75rem; color: var(--muted); }
+    .stars { color: var(--clay); font-size: .7rem; letter-spacing: .1em; margin-bottom: .5rem; }
+
+    /* ── Cita / CTA ── */
+    #cita {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: start;
+    }
+    .cita-info h2 { margin-bottom: 1rem; }
+    .cita-info p { color: var(--muted); line-height: 1.8; font-size: .95rem; margin-bottom: 2.5rem; }
+
+    .contact-list { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex; align-items: center; gap: 1rem;
+      font-size: .88rem; color: var(--muted);
+    }
+    .contact-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--stone); display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Form */
+    .cita-form {
+      background: #fff; border-radius: 2rem; padding: 2.5rem;
+      border: 1px solid rgba(196,168,130,.15);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .form-label { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+    .form-input, .form-select, .form-textarea {
+      padding: .8rem 1rem;
+      border: 1px solid rgba(196,168,130,.3);
+      border-radius: .75rem; background: var(--cream);
+      font-family: 'DM Sans', sans-serif; font-size: .9rem;
+      color: var(--ink); outline: none;
+      transition: border-color .2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--sage);
+    }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 1rem;
+      background: var(--sage); color: #fff; border: none;
+      border-radius: 3rem; font-family: 'DM Sans', sans-serif;
+      font-size: .9rem; font-weight: 500; letter-spacing: .06em;
+      cursor: pointer; transition: all .25s; margin-top: .5rem;
+    }
+    .form-submit:hover { background: var(--ink); }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid rgba(196,168,130,.2);
+      padding: 3rem; max-width: 1300px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--ink);
+    }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: .78rem; color: var(--muted); text-decoration: none; letter-spacing: .06em; }
+    .footer-copy { font-size: .75rem; color: var(--muted); }
+
+    /* ── Animations ── */
+    .fade-up {
+      opacity: 0; transform: translateY(28px);
+      transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+    }
+    .fade-up.visible { opacity: 1; transform: none; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .floating-badge { animation: float 4s ease-in-out infinite; }
+
+    /* ── Responsive ── */
+    @media (max-width: 1024px) {
+      #hero { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
+      .hero-text { max-width: 100%; }
+      .hero-sub { max-width: 100%; }
+      .hero-actions { justify-content: center; }
+      .hero-visual { max-width: 400px; margin: 0 auto; }
+      .floating-badge { left: 0; }
+      #sobre { grid-template-columns: 1fr; }
+      .sobre-img { aspect-ratio: 3/2; max-height: 320px; }
+      .servicios-grid { grid-template-columns: repeat(2, 1fr); }
+      .enfoque-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonios-grid { grid-template-columns: 1fr; }
+      #cita { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1.2rem 1.5rem; }
+      nav.scrolled { padding: .9rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      #hero { padding: 6rem 1.5rem 3rem; }
+      section { padding: 5rem 1.5rem; }
+      #enfoque { padding: 4rem 2rem; border-radius: 2rem; }
+      .servicios-grid { grid-template-columns: 1fr; }
+      .enfoque-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">Dra. Elena <span>Morales</span></div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre mí</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#enfoque">Enfoque</a>
+      <a href="#testimonios">Testimonios</a>
+    </div>
+    <a href="#cita" class="nav-cta">Agendar Cita</a>
+    <div class="hamburger" id="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#sobre" onclick="closeMobile()">Sobre mí</a>
+    <a href="#servicios" onclick="closeMobile()">Servicios</a>
+    <a href="#enfoque" onclick="closeMobile()">Enfoque</a>
+    <a href="#testimonios" onclick="closeMobile()">Testimonios</a>
+    <a href="#cita" onclick="closeMobile()">Agendar Cita</a>
+  </div>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div class="hero-text fade-up">
+      <p class="hero-eyebrow">Psicóloga Clínica · Colegiada M-45892</p>
+      <h1 class="hero-title">
+        Un espacio para <em>sanar</em> y crecer.
+      </h1>
+      <p class="hero-sub">
+        Acompañamiento psicológico individual y de pareja. Ayudo a personas a comprender sus emociones, superar el malestar y construir una vida más plena.
+      </p>
+      <div class="hero-actions">
+        <a href="#cita" class="btn-primary">Solicitar primera cita</a>
+        <a href="#sobre" class="btn-ghost">
+          Conocer más
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-visual fade-up" style="transition-delay:.15s">
+      <div class="hero-img-wrap">
+        <div class="hero-placeholder">
+          <!-- SVG Silhouette illustration -->
+          <svg width="220" height="300" viewBox="0 0 220 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="110" cy="75" rx="42" ry="45" fill="rgba(143,168,138,0.35)"/>
+            <path d="M40 280 C40 200 80 170 110 165 C140 170 180 200 180 280" fill="rgba(143,168,138,0.25)"/>
+            <ellipse cx="110" cy="75" rx="30" ry="32" fill="rgba(143,168,138,0.5)"/>
+            <path d="M85 120 C85 140 110 155 110 155 C110 155 135 140 135 120" fill="rgba(143,168,138,0.35)"/>
+            <!-- Plant decoration -->
+            <path d="M165 240 Q175 210 170 185" stroke="rgba(143,168,138,0.4)" stroke-width="2" fill="none"/>
+            <ellipse cx="172" cy="195" rx="12" ry="18" fill="rgba(143,168,138,0.2)" transform="rotate(-20 172 195)"/>
+            <ellipse cx="168" cy="210" rx="10" ry="15" fill="rgba(143,168,138,0.2)" transform="rotate(15 168 210)"/>
+            <!-- Soft lines -->
+            <path d="M55 180 Q70 160 110 165 Q150 160 165 180" stroke="rgba(196,168,130,0.3)" stroke-width="1.5" fill="none"/>
+          </svg>
+        </div>
+      </div>
+      <div class="floating-badge">
+        <div class="badge-num">+12</div>
+        <div class="badge-text">Años de<br/>experiencia</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre">
+    <div class="sobre-img fade-up">
+      <div class="sobre-placeholder">
+        <svg width="200" height="260" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="70" rx="38" ry="40" fill="rgba(143,168,138,0.4)"/>
+          <path d="M35 255 C35 185 70 158 100 152 C130 158 165 185 165 255" fill="rgba(143,168,138,0.3)"/>
+          <ellipse cx="100" cy="70" rx="26" ry="28" fill="rgba(143,168,138,0.55)"/>
+          <rect x="60" y="160" width="80" height="4" rx="2" fill="rgba(196,168,130,0.3)"/>
+          <rect x="72" y="172" width="56" height="3" rx="1.5" fill="rgba(196,168,130,0.2)"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sobre-text fade-up" style="transition-delay:.1s">
+      <p class="section-label">Sobre mí</p>
+      <h2 class="section-title">Psicología con <em>enfoque humano</em></h2>
+      <p>Soy Elena Morales, psicóloga clínica colegiada con más de 12 años de experiencia acompañando a personas en sus procesos de cambio y transformación personal.</p>
+      <p>Me especializo en terapia cognitivo-conductual, mindfulness y psicología positiva. Creo en la importancia de crear un espacio seguro donde cada persona pueda explorar su mundo interior sin juicio.</p>
+      <p>Mi consulta está abierta tanto de forma presencial en Madrid como en modalidad online, para que puedas recibir apoyo desde donde te encuentres.</p>
+      <div class="credential-list">
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div class="cred-text">Licenciada en Psicología Clínica — Universidad Complutense de Madrid</div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div class="cred-text">Máster en Terapia Cognitivo-Conductual — UAM</div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div class="cred-text">Certificación en EMDR — Nivel II</div>
+        </div>
+        <div class="credential-item">
+          <div class="cred-dot"></div>
+          <div class="cred-text">Colegiada en el Colegio Oficial de Psicólogos de Madrid</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <div class="servicios-header fade-up">
+      <p class="section-label">Servicios</p>
+      <h2 class="section-title">Cómo puedo <em>ayudarte</em></h2>
+      <p>Ofrezco un acompañamiento personalizado adaptado a tus necesidades y objetivos particulares.</p>
+    </div>
+    <div class="servicios-grid">
+      <div class="servicio-card fade-up">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Terapia Individual</h3>
+        <p class="card-desc">Sesiones personalizadas para trabajar ansiedad, depresión, estrés, baja autoestima y gestión emocional. Un espacio íntimo de escucha y crecimiento.</p>
+      </div>
+      <div class="servicio-card fade-up" style="transition-delay:.08s">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Terapia de Pareja</h3>
+        <p class="card-desc">Mejora la comunicación, gestiona conflictos y fortalece el vínculo. Para parejas que buscan reconectar y construir una relación más sana.</p>
+      </div>
+      <div class="servicio-card fade-up" style="transition-delay:.16s">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 8v4l3 3"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Psicología Online</h3>
+        <p class="card-desc">Accede a terapia desde la comodidad de tu hogar. Misma calidad, plataforma segura, horarios flexibles y adaptados a tu agenda.</p>
+      </div>
+      <div class="servicio-card fade-up" style="transition-delay:.24s">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5.586a1 1 0 0 1 .707.293l5.414 5.414a1 1 0 0 1 .293.707V19a2 2 0 0 1-2 2z"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Evaluación Psicológica</h3>
+        <p class="card-desc">Diagnóstico y valoración integral mediante pruebas estandarizadas. Informes para uso clínico, educativo o laboral.</p>
+      </div>
+      <div class="servicio-card fade-up" style="transition-delay:.32s">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Gestión del Estrés</h3>
+        <p class="card-desc">Programas específicos de mindfulness, técnicas de relajación y herramientas prácticas para reducir el estrés y mejorar tu bienestar diario.</p>
+      </div>
+      <div class="servicio-card fade-up" style="transition-delay:.4s">
+        <div class="card-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+        </div>
+        <h3 class="card-title">Desarrollo Personal</h3>
+        <p class="card-desc">Coaching psicológico para clarificar metas, superar bloqueos y desarrollar tu mejor versión. Para quienes quieren crecer sin tener un diagnóstico.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENFOQUE -->
+  <div style="padding: 0 3rem; max-width: 1300px; margin: 0 auto;">
+    <div id="enfoque" class="fade-up">
+      <p class="section-label">Mi enfoque</p>
+      <h2 class="section-title">El proceso <em>terapéutico</em></h2>
+      <div class="enfoque-grid">
+        <div class="enfoque-item">
+          <div class="enfoque-num">01</div>
+          <div class="enfoque-title">Primera consulta</div>
+          <div class="enfoque-desc">Conocemos tu situación, expectativas y objetivos. Sin compromiso y completamente confidencial.</div>
+        </div>
+        <div class="enfoque-item">
+          <div class="enfoque-num">02</div>
+          <div class="enfoque-title">Evaluación</div>
+          <div class="enfoque-desc">Análisis profundo de tu historia y estado emocional para diseñar un plan a medida.</div>
+        </div>
+        <div class="enfoque-item">
+          <div class="enfoque-num">03</div>
+          <div class="enfoque-title">Tratamiento</div>
+          <div class="enfoque-desc">Sesiones semanales con técnicas evidence-based adaptadas a tu perfil y objetivos.</div>
+        </div>
+        <div class="enfoque-item">
+          <div class="enfoque-num">04</div>
+          <div class="enfoque-title">Seguimiento</div>
+          <div class="enfoque-desc">Consolidamos los cambios y preparamos el alta con herramientas para tu autonomía.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios">
+    <div class="testimonios-header fade-up">
+      <p class="section-label">Testimonios</p>
+      <h2 class="section-title">Lo que dicen mis <em>pacientes</em></h2>
+    </div>
+    <div class="testimonios-grid">
+      <div class="testimonio-card fade-up">
+        <div class="stars">★★★★★</div>
+        <p class="testimonio-text">La terapia con Elena cambió completamente mi forma de ver las cosas. Aprendí a gestionar mi ansiedad y a confiar más en mí misma.</p>
+        <div class="testimonio-author">
+          <div class="author-avatar">AM</div>
+          <div>
+            <div class="author-name">Ana M.</div>
+            <div class="author-role">Terapia individual · 8 meses</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card fade-up" style="transition-delay:.08s">
+        <div class="stars">★★★★★</div>
+        <p class="testimonio-text">Mi pareja y yo estábamos al borde de la ruptura. Gracias a Elena recuperamos la comunicación y una nueva manera de querernos.</p>
+        <div class="testimonio-author">
+          <div class="author-avatar">CR</div>
+          <div>
+            <div class="author-name">Carlos R.</div>
+            <div class="author-role">Terapia de pareja · 5 meses</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonio-card fade-up" style="transition-delay:.16s">
+        <div class="stars">★★★★★</div>
+        <p class="testimonio-text">El formato online me permitió hacer terapia desde el extranjero. La calidad es exactamente la misma que en persona. La recomiendo totalmente.</p>
+        <div class="testimonio-author">
+          <div class="author-avatar">LP</div>
+          <div>
+            <div class="author-name">Laura P.</div>
+            <div class="author-role">Psicología online · 1 año</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CITA -->
+  <section id="cita">
+    <div class="cita-info fade-up">
+      <p class="section-label">Contacto</p>
+      <h2 class="section-title">Agenda tu <em>primera cita</em></h2>
+      <p>La primera consulta es orientativa y sin compromiso. Cuéntame qué te trae y valoramos juntos cómo puedo ayudarte.</p>
+      <div class="contact-list">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          +34 91 234 56 78
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          hola@draelenamorales.es
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          Calle Serrano 42, 2º B · Madrid
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--sage)" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          Lunes a Viernes · 9:00 – 20:00
+        </div>
+      </div>
+    </div>
+
+    <div class="cita-form fade-up" style="transition-delay:.1s">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre</label>
+          <input type="text" class="form-input" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apellidos</label>
+          <input type="text" class="form-input" placeholder="Tus apellidos">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-input" placeholder="tu@email.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono</label>
+          <input type="tel" class="form-input" placeholder="+34 600 000 000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Modalidad</label>
+        <select class="form-select">
+          <option value="">Selecciona modalidad</option>
+          <option>Presencial en Madrid</option>
+          <option>Online (videollamada)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿En qué puedo ayudarte?</label>
+        <textarea class="form-textarea" placeholder="Cuéntame brevemente tu situación..."></textarea>
+      </div>
+      <button class="form-submit">Enviar solicitud de cita</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Dra. Elena Morales</div>
+    <div class="footer-links">
+      <a href="#">Política de privacidad</a>
+      <a href="#">Aviso legal</a>
+      <a href="#">Cookies</a>
+    </div>
+    <div class="footer-copy">© 2025 · Todos los derechos reservados</div>
+  </footer>
+
+  <script>
+    // Nav scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    // Mobile menu
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+    function closeMobile() { mobileMenu.classList.remove('open'); }
+
+    // Intersection Observer for fade-up
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(el => {
+        if (el.isIntersecting) { el.target.classList.add('visible'); }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
